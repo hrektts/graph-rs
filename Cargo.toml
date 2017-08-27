@@ -1,0 +1,15 @@
+[package]
+name = "graph"
+version = "0.0.1"
+authors = ["Katsutoshi Horie <mps299792458@gmail.com>"]
+license = "MIT/Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/hrektts/c-linked-list"
+homepage = "https://github.com/hrektts/c-linked-list"
+documentation = "https://katsutoshihorie.com/c-linked-list"
+description = """
+A simple graph implementation.
+"""
+
+[dependencies]
+slab = "0.4"
