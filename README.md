@@ -12,7 +12,7 @@ Add this to your Cargo.toml:
 
 ``` toml
 [dependencies]
-graph = { git = "https://github.com/hrektts/graph" }
+graph = { git = "https://github.com/hrektts/graph-rs" }
 ```
 
 Then add this to your crate:
