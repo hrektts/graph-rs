@@ -12,4 +12,5 @@ A simple graph implementation.
 """
 
 [dependencies]
+fnv = "1.0"
 slab = "0.4"
