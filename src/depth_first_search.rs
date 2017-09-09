@@ -134,6 +134,7 @@ mod tests {
             Dfs::new().run(&v0, |&v| v == v9, &g),
             Some(vec![v0, v4, v6, v7, v9])
         );
+        assert_eq!(Dfs::new().run(&v0, |&v| v == v2, &g), None);
     }
 
     #[test]
