@@ -3,6 +3,7 @@ extern crate slab;
 
 mod graph;
 mod incidence_list;
+mod path;
 mod visitor;
 
 mod breadth_first_search;

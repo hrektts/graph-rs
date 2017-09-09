@@ -5,6 +5,7 @@ use std::marker::PhantomData;
 use fnv::FnvHashMap;
 
 use graph::{Graph, AdjacencyGraph, AdjacencyMatrixGraph, VertexListGraph, VertexDescriptor};
+use path::reverse_path;
 use visitor::{Event, Visitor, DefaultVisitor};
 
 pub struct Bfs<G, V>
@@ -90,18 +91,6 @@ where
     pub fn visitor_ref(&self) -> &V {
         &self.visitor
     }
-}
-
-fn reverse_path(
-    parents: &FnvHashMap<VertexDescriptor, VertexDescriptor>,
-    goal: VertexDescriptor,
-) -> Vec<VertexDescriptor> {
-    let mut path = vec![goal];
-    while let Some(parent) = parents.get(path.last().unwrap()) {
-        path.push(*parent);
-    }
-    path.reverse();
-    path
 }
 
 #[cfg(test)]
