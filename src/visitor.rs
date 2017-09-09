@@ -26,3 +26,12 @@ pub enum Event {
     EdgeMinimized(EdgeDescriptor),
     EdgeNotMinimized(EdgeDescriptor),
 }
+
+pub struct DefaultVisitor;
+
+impl<G> Visitor<G, Event> for DefaultVisitor
+where
+    G: Graph,
+{
+    fn visit(&mut self, _e: &Event, _g: &G) {}
+}

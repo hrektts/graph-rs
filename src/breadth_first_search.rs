@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use fnv::FnvHashMap;
 
 use graph::{Graph, VertexDescriptor, AdjacencyGraph, AdjacencyMatrixGraph, VertexListGraph};
-use visitor::{Event, Visitor};
+use visitor::{Event, Visitor, DefaultVisitor};
 
 pub struct Bfs<G, V>
 where
@@ -18,7 +18,7 @@ where
     phantom: PhantomData<G>,
 }
 
-impl<G> Bfs<G, BfsVisitor>
+impl<G> Bfs<G, DefaultVisitor>
 where
     G: Graph,
 {
@@ -26,7 +26,7 @@ where
         Self {
             fringe: VecDeque::new(),
             parents: FnvHashMap::default(),
-            visitor: BfsVisitor,
+            visitor: DefaultVisitor,
             phantom: PhantomData,
         }
     }
@@ -102,15 +102,6 @@ fn reverse_path(
     }
     path.reverse();
     path
-}
-
-struct BfsVisitor;
-
-impl<G> Visitor<G, Event> for BfsVisitor
-where
-    G: Graph,
-{
-    fn visit(&mut self, _e: &Event, _graph: &G) {}
 }
 
 #[cfg(test)]
