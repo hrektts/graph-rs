@@ -4,7 +4,7 @@ use std::marker::PhantomData;
 
 use fnv::FnvHashMap;
 
-use graph::{Graph, VertexDescriptor, AdjacencyGraph, AdjacencyMatrixGraph, VertexListGraph};
+use graph::{Graph, AdjacencyGraph, AdjacencyMatrixGraph, VertexListGraph, VertexDescriptor};
 use visitor::{Event, Visitor, DefaultVisitor};
 
 pub struct Bfs<G, V>
