@@ -23,12 +23,7 @@ where
     G: Graph,
 {
     pub fn new() -> Self {
-        Self {
-            fringe: Vec::new(),
-            parents: FnvHashMap::default(),
-            visitor: DefaultVisitor,
-            phantom: PhantomData,
-        }
+        Self::with_visitor(DefaultVisitor)
     }
 }
 
