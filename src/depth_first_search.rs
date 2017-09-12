@@ -7,30 +7,30 @@ use graph::{Graph, AdjacencyGraph, AdjacencyMatrixGraph, VertexListGraph, Vertex
 use path::reverse_path;
 use visitor::{Event, Visitor, DefaultVisitor};
 
-pub struct Dfs<G, V>
+pub struct Dfs<T, V>
 where
-    G: Graph,
-    V: Visitor<G, Event>,
+    T: Graph,
+    V: Visitor<T, Event>,
 {
     fringe: Vec<VertexDescriptor>,
     parents: FnvHashMap<VertexDescriptor, VertexDescriptor>,
     visitor: V,
-    phantom: PhantomData<G>,
+    phantom: PhantomData<T>,
 }
 
-impl<G> Dfs<G, DefaultVisitor>
+impl<T> Dfs<T, DefaultVisitor>
 where
-    G: Graph,
+    T: Graph,
 {
     pub fn new() -> Self {
         Self::with_visitor(DefaultVisitor)
     }
 }
 
-impl<G, V> Dfs<G, V>
+impl<T, V> Dfs<T, V>
 where
-    G: Graph,
-    V: Visitor<G, Event>,
+    T: Graph,
+    V: Visitor<T, Event>,
 {
     pub fn with_visitor(visitor: V) -> Self {
         Self {
@@ -45,11 +45,11 @@ where
         &mut self,
         start: &VertexDescriptor,
         is_goal: F,
-        graph: &'a G,
+        graph: &'a T,
     ) -> Option<Vec<VertexDescriptor>>
     where
         F: Fn(&VertexDescriptor) -> bool,
-        G: AdjacencyGraph<'a> + AdjacencyMatrixGraph + VertexListGraph<'a>,
+        T: AdjacencyGraph<'a> + AdjacencyMatrixGraph + VertexListGraph<'a>,
     {
         for vertex in graph.vertices() {
             self.visitor.visit(&Event::InitializeVertex(vertex), graph)
@@ -134,7 +134,7 @@ mod tests {
 
     #[test]
     fn dfs_with_visitor() {
-        use graph::{Graph, Directed, IncidenceGraph, MutableGraph, VertexDescriptor};
+        use graph::{Directed, IncidenceGraph, MutableGraph, VertexDescriptor};
         use incidence_list::IncidenceList;
         use visitor::{Event, Visitor};
 
@@ -162,11 +162,11 @@ mod tests {
             }
         }
 
-        impl<'a, G> Visitor<G, Event> for MyVisitor
+        impl<'a, T> Visitor<T, Event> for MyVisitor
         where
-            G: Graph + IncidenceGraph<'a>,
+            T: IncidenceGraph<'a>,
         {
-            fn visit(&mut self, e: &Event, graph: &G) {
+            fn visit(&mut self, e: &Event, graph: &T) {
                 match e {
                     &Event::InitializeVertex(v) => self.init.push(v),
                     &Event::DiscoverVertex(v) => self.discovered.push(v),
