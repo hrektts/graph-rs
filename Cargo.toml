@@ -13,4 +13,5 @@ A simple graph implementation.
 
 [dependencies]
 fnv = "1.0"
+num-traits = "0.1"
 slab = "0.4"
