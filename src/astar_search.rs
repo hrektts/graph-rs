@@ -207,7 +207,7 @@ mod tests {
     }
 
     #[test]
-    fn astar() {
+    fn astar_directed() {
         use graph::{Directed, Graph, MutableGraph};
         use incidence_list::IncidenceList;
 
@@ -251,7 +251,7 @@ mod tests {
     }
 
     #[test]
-    fn astar_with_visitor() {
+    fn astar_directed_with_visitor() {
         use graph::{Directed, Graph, MutableGraph, EdgeDescriptor, VertexDescriptor};
         use incidence_list::IncidenceList;
         use visitor::{Event, Visitor};
@@ -346,5 +346,69 @@ mod tests {
         );
         assert_eq!(astar.visitor_ref().edge_not_relaxed, vec![e13, e34]);
         assert_eq!(astar.visitor_ref().finished, vec![v0, v2, v1, v2, v3, v3]);
+    }
+
+    #[test]
+    fn astar_undirected() {
+        use graph::{Undirected, Graph, MutableGraph};
+        use incidence_list::IncidenceList;
+
+        let mut g = IncidenceList::<Undirected, _, _>::new();
+
+        let ar = g.add_vertex(("Arad", 366));
+        let bu = g.add_vertex(("Bucharest", 0));
+        let cr = g.add_vertex(("Craiova", 160));
+        let db = g.add_vertex(("Dobreta", 242));
+        let ef = g.add_vertex(("Eforie", 161));
+        let fa = g.add_vertex(("Fagaras", 178));
+        let gi = g.add_vertex(("Fagaras", 77));
+        let hi = g.add_vertex(("Hirsova", 151));
+        let ia = g.add_vertex(("Iasi", 226));
+        let lu = g.add_vertex(("Lugoj", 244));
+        let me = g.add_vertex(("Mehadia", 241));
+        let ne = g.add_vertex(("Neamt", 234));
+        let or = g.add_vertex(("Oradea", 380));
+        let pi = g.add_vertex(("Pitesti", 98));
+        let ri = g.add_vertex(("Rimnicu Vilcea", 193));
+        let si = g.add_vertex(("Sibiu", 253));
+        let ti = g.add_vertex(("Timisoara", 329));
+        let ur = g.add_vertex(("Urziceni", 80));
+        let va = g.add_vertex(("Vaslui", 199));
+        let ze = g.add_vertex(("Zerind", 374));
+
+        g.add_edge(ar, ze, 75);
+        g.add_edge(ze, or, 71);
+        g.add_edge(or, si, 151);
+        g.add_edge(ar, si, 140);
+        g.add_edge(ar, ti, 118);
+        g.add_edge(ti, lu, 111);
+        g.add_edge(lu, me, 70);
+        g.add_edge(me, db, 75);
+        g.add_edge(db, cr, 120);
+        g.add_edge(si, fa, 99);
+        g.add_edge(fa, bu, 211);
+        g.add_edge(si, ri, 80);
+        g.add_edge(ri, cr, 146);
+        g.add_edge(ri, pi, 97);
+        g.add_edge(pi, cr, 138);
+        g.add_edge(pi, bu, 101);
+        g.add_edge(bu, gi, 90);
+        g.add_edge(bu, ur, 85);
+        g.add_edge(ur, va, 142);
+        g.add_edge(va, ia, 92);
+        g.add_edge(ia, ne, 87);
+        g.add_edge(ur, hi, 98);
+        g.add_edge(hi, ef, 86);
+
+        assert_eq!(
+            Astar::new().run(
+                &ar,
+                |&e, g| *g.edge_property(e).unwrap(),
+                |&v, g| g.vertex_property(v).unwrap().1,
+                |&v| v == bu,
+                &g,
+            ),
+            Some(vec![ar, si, ri, pi, bu])
+        );
     }
 }
