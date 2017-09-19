@@ -119,7 +119,6 @@ where
                 let parents = self.parents.iter().map(|(&n, &(p, _))| (n, p)).collect();
                 return Some(reverse_path(&parents, vertex));
             }
-
             for adjacency in graph.adjacent_vertices(vertex) {
                 let edge = graph.edge(vertex, adjacency).unwrap();
                 self.visitor.visit(&Event::ExamineEdge(edge), graph);
